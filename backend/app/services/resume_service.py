@@ -1,10 +1,20 @@
-import pdfplumber
 import re
 from typing import List, Dict, Any
-from docx import Document
 import os
 
-# Try to import alternative PDF libraries
+# Try to import PDF libraries (may not be available on serverless)
+try:
+    import pdfplumber
+    HAS_PDFPLUMBER = True
+except ImportError:
+    HAS_PDFPLUMBER = False
+
+try:
+    from docx import Document
+    HAS_DOCX = True
+except ImportError:
+    HAS_DOCX = False
+
 try:
     import fitz  # PyMuPDF
     HAS_FITZ = True
@@ -93,17 +103,19 @@ def extract_text_from_pdf(file_path: str) -> str:
     text = ""
     
     # Method 1: Try pdfplumber first
-    try:
-        with pdfplumber.open(file_path) as pdf:
-            for page in pdf.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + "\n"
-        if text.strip():
-            print(f"pdfplumber extracted {len(text)} chars")
-            return text
-    except Exception as e:
-        print(f"pdfplumber error: {e}")
+    if HAS_PDFPLUMBER:
+        try:
+            import pdfplumber
+            with pdfplumber.open(file_path) as pdf:
+                for page in pdf.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                        text += page_text + "\n"
+            if text.strip():
+                print(f"pdfplumber extracted {len(text)} chars")
+                return text
+        except Exception as e:
+            print(f"pdfplumber error: {e}")
     
     # Method 2: Try PyMuPDF (fitz)
     if HAS_FITZ:
@@ -134,14 +146,20 @@ def extract_text_from_pdf(file_path: str) -> str:
         except Exception as e:
             print(f"PyPDF2 error: {e}")
     
-    # Method 4: If all failed, the PDF might be image-based
-    # For hackathon demo, we can use a simple OCR approach or return empty
+    # If no PDF library available, return error message
+    if not HAS_PDFPLUMBER and not HAS_FITZ and not HAS_PYPDF2:
+        print("WARNING: No PDF library available")
+        return "PDF_LIBRARY_NOT_AVAILABLE"
+    
     print(f"WARNING: Could not extract text from PDF. It may be image-based.")
     return text
 
 def extract_text_from_docx(file_path: str) -> str:
     """Extract text content from Word document"""
     text = ""
+    if not HAS_DOCX:
+        print("WARNING: python-docx not available")
+        return ""
     try:
         doc = Document(file_path)
         for paragraph in doc.paragraphs:
