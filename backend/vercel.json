@@ -1,15 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.py"
-    }
+  "framework": null,
+  "installCommand": "pip install -r requirements.txt",
+  "buildCommand": "",
+  "outputDirectory": "",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
   ]
 }
