@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { authAPI } from "@/lib/api";
@@ -7,7 +7,7 @@ import { useAuthStore } from "@/lib/store";
 import toast from "react-hot-toast";
 import { Briefcase, Mail, Lock, User, Loader2 } from "lucide-react";
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const defaultRole = searchParams.get("role") || "candidate";
@@ -155,5 +155,13 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin" /></div>}>
+      <RegisterForm />
+    </Suspense>
   );
 }
