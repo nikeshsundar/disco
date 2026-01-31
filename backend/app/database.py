@@ -5,10 +5,16 @@ from app.config import settings
 
 # Handle SQLite connect_args for thread safety
 connect_args = {}
-if settings.database_url.startswith("sqlite"):
+db_url = settings.database_url
+
+# Fix for Vercel PostgreSQL URL (postgres:// -> postgresql://)
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+if db_url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
 
-engine = create_engine(settings.database_url, connect_args=connect_args)
+engine = create_engine(db_url, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

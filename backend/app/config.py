@@ -1,10 +1,11 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
+import os
 
 class Settings(BaseSettings):
-    # Using SQLite for easier hackathon setup - switch to PostgreSQL in production
-    database_url: str = "sqlite:///./hr_evaluation.db"
-    secret_key: str = "your-super-secret-key-change-in-production"
+    # Use PostgreSQL in production (Vercel), SQLite locally
+    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./hr_evaluation.db")
+    secret_key: str = os.getenv("SECRET_KEY", "your-super-secret-key-change-in-production")
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 1440
     
