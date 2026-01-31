@@ -405,6 +405,96 @@ def extract_work_experience(text: str) -> List[Dict[str, Any]]:
     
     return experiences[:5]  # Return top 5 experiences
 
+def parse_resume_from_bytes(file_content: bytes, filename: str) -> Dict[str, Any]:
+    """Parse resume from bytes in memory (for serverless environments)"""
+    import io
+    import tempfile
+    
+    file_ext = os.path.splitext(filename)[1].lower()
+    raw_text = ""
+    
+    # Try to extract text from bytes
+    if file_ext == '.pdf':
+        # Method 1: pdfplumber from bytes
+        if HAS_PDFPLUMBER:
+            try:
+                import pdfplumber
+                with pdfplumber.open(io.BytesIO(file_content)) as pdf:
+                    for page in pdf.pages:
+                        page_text = page.extract_text()
+                        if page_text:
+                            raw_text += page_text + "\n"
+            except Exception as e:
+                print(f"pdfplumber bytes error: {e}")
+        
+        # Method 2: PyPDF2 from bytes
+        if not raw_text.strip() and HAS_PYPDF2:
+            try:
+                from PyPDF2 import PdfReader
+                reader = PdfReader(io.BytesIO(file_content))
+                for page in reader.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                        raw_text += page_text + "\n"
+            except Exception as e:
+                print(f"PyPDF2 bytes error: {e}")
+    
+    elif file_ext in ['.docx', '.doc']:
+        if HAS_DOCX:
+            try:
+                from docx import Document
+                doc = Document(io.BytesIO(file_content))
+                for paragraph in doc.paragraphs:
+                    raw_text += paragraph.text + "\n"
+            except Exception as e:
+                print(f"docx bytes error: {e}")
+    
+    else:
+        # Plain text
+        try:
+            raw_text = file_content.decode('utf-8', errors='ignore')
+        except:
+            raw_text = ""
+    
+    # If no text extracted
+    if not raw_text or len(raw_text.strip()) < 50:
+        return {
+            "name": "",
+            "skills": [],
+            "experience_years": 0,
+            "education": [],
+            "work_experience": [],
+            "contact_info": {},
+            "raw_text": "",
+            "error": "Could not extract text. The file may be image-based or corrupted."
+        }
+    
+    # Extract all information
+    skills = extract_skills(raw_text)
+    education = extract_education(raw_text)
+    experience_years = extract_experience_years(raw_text)
+    
+    education_display = []
+    for edu in education:
+        if edu.get("field"):
+            education_display.append(f"{edu['degree']} in {edu['field']}")
+        else:
+            education_display.append(edu['degree'])
+    
+    return {
+        "name": extract_name(raw_text),
+        "skills": skills,
+        "experience_years": experience_years,
+        "education": education_display if education_display else ["Education info found"],
+        "education_details": education,
+        "work_experience": extract_work_experience(raw_text),
+        "contact_info": {
+            "email": extract_email(raw_text),
+            "phone": extract_phone(raw_text)
+        },
+        "raw_text": raw_text[:5000]
+    }
+
 def parse_resume(file_path: str) -> Dict[str, Any]:
     """Main function to parse resume and extract all information"""
     # Determine file type and extract text

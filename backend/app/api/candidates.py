@@ -15,7 +15,7 @@ from app.schemas.schemas import (
     CandidateDashboard, ParsedResume, ResumeMatchResult, FinalEvaluationResponse
 )
 from app.services.auth_service import get_current_user, get_current_candidate
-from app.services.resume_service import parse_resume, match_resume_to_job
+from app.services.resume_service import parse_resume, parse_resume_from_bytes, match_resume_to_job
 from app.services.scoring_service import (
     calculate_assessment_scores, calculate_integrity_score, generate_evaluation
 )
@@ -127,20 +127,15 @@ async def upload_resume(
             detail=f"File type not allowed. Allowed: {allowed_extensions}"
         )
     
-    # Ensure upload directory exists
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    
-    # Save file
-    file_path = os.path.join(UPLOAD_DIR, f"{current_user.id}_{file.filename}")
+    # Read file content into memory
     try:
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        file_content = await file.read()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to read file: {str(e)}")
     
-    # Parse resume
+    # Parse resume from bytes (works on serverless)
     try:
-        parsed_data = parse_resume(file_path)
+        parsed_data = parse_resume_from_bytes(file_content, file.filename)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to parse resume: {str(e)}")
     
@@ -156,7 +151,7 @@ async def upload_resume(
         db.commit()
         db.refresh(profile)
     
-    profile.resume_path = file_path
+    profile.resume_path = f"memory://{file.filename}"  # Mark as in-memory
     profile.parsed_resume = parsed_data
     db.commit()
     db.refresh(profile)
