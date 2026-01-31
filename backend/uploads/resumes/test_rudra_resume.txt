@@ -1,0 +1,58 @@
+RUDRA PATOLE
+MBA Digital Transformation | Batch of 2025-27
+LinkedIn | GitHub | Age: 22
+
+AI & Automation Engineer (Fresher) | MBA – Digital Transformation
+Hands-on experience building AI-powered automation and agentic AI systems using RAG, LangGraph, LLM tool-calling, and browser automation to solve real business and consulting-style problems. Strong foundation in Python, data pipelines, and document intelligence, with demonstrated ownership of end-to-end system design and delivery producing measurable business and project impact.
+
+EDUCATION
+School of Business Management, NMIMS, Mumbai                                    2025-27
+MBA Digital Transformation (CGPA: 7.75/10)
+
+K.J. Somaiya Institute of Technology, Mumbai                                    2021-25
+B. Tech Computer Engineering (CGPA: 8.08/10)
+
+Higher Secondary (CBSE): 94.2% | Secondary (ICSE): 92.67%                      2019-21
+
+INTERNSHIPS
+Analyst Intern, Textify Analytics                                              May 2024 – Aug 2024
+• Reported campaign KPIs via Google Analytics and CRM dashboards, boosting CTR by 12% and reducing ad spend inefficiency by 10%
+• Boosted demo requests by 15% in 2 months for Textify's AI tools through targeted lead generation by identifying and engaging prospects
+
+Intern, Software Development Cell (KJ Somaiya Institute of Technology)         Mar 2022 – Jun 2022
+• Developed a Duplicate Marksheet module for the Examination System, enabling efficient record retrieval and still in operation today
+• Designed and implemented a user-friendly and responsive user interface with secure database management and advanced filtering to streamline workflows
+
+CORPORATE PROJECTS
+Internal Company AI Analyst (RAG-Based Document Intelligence)                   Jan 2026
+• Built an Internal Company AI Analyst using Google Document AI and RAG to convert large annual reports into structured, evidence-backed knowledge, enabling accurate financial, risk, and strategy Q&A grounded strictly in company disclosures
+• Architected and implemented an end-to-end document intelligence pipeline (batch parsing → IR → atomic facts → chunking → embeddings → vector search → LLM synthesis) with validation to prevent data loss and hallucination
+
+AI-Powered Automation System for LinkedIn Easy Apply                            Nov 2025
+• Engineered an AI-powered job application automation workflow using Python and Playwright that scrapes LinkedIn jobs, scores job-resume fit with LLMs, and selectively applies only to high-match roles, reducing manual job application time by ~85% through pre-application intelligence
+• Implemented a robust human-in-the-loop and adaptive memory system to safely handle unknown or ambiguous form questions, enabling the agent to pause, request user input, learn from corrections, and progressively reduce manual intervention across future applications
+
+AI-Driven Group Discussion Simulation Platform                                  Dec 2025
+• Designed and orchestrated a real-time AI-orchestrated Group Discussion (GD) simulation platform using LangGraph, coordinating multiple AI participants via a central orchestration layer with turn logic, timing constraints, cooldowns, and live speech pipelines (LLMs, STT, TTS)
+• Architected an end-to-end AI agent lifecycle with prompt-aware role conditioning, anti-repetition guardrails and post-GD analytics delivering structured feedback, participant insights, and performance diagnostics through coordinated agent orchestration
+
+Automated Facebook Lead Generation & Multi-Channel Outreach System              Oct 2025
+• Built an AI-powered multi-channel lead automation system using Playwright that scrapes Facebook groups, qualifies leads using LLM-based intent filtering, and orchestrates outreach across Facebook Messenger, WhatsApp, and Email, reducing manual lead generation time by 95%
+• Designed an intelligent lead qualification and deduplication pipeline enabling IT & software services companies to reach 50+ qualified leads per session with consistent messaging and zero manual data entry
+
+Government Tender Discovery & Shortlisting Automation                           Sep 2025
+• Automated daily checking of 30+ government tender portals using Python and Playwright, replacing manual keyword searches, form submissions, and tender-by-tender checks with a single repeatable script
+• Added simple fcc and keyword-based checks along with LLM-based review for edge cases to filter out non-IT tenders early, reducing irrelevant results by ~90% and saving the business development team 15-20 hours of manual work every week
+
+SKILLS & CERTIFICATES
+Technical Skills:
+Python, SQL | RAG, LangGraph, LLM Tool Calling | Browser Automation (Playwright, Selenium), Web Scraping, n8n | Power BI | Google Cloud, API Integration | GitHub
+
+Additional Certifications:
+• Generative AI Prompt Engineering Basics (IBM)
+• AI Agents and Agentic AI with Python & Generative AI (Vanderbilt University)
+• Data Analysis and Visualization with Power BI (Microsoft)
+
+Hobbies/Interests: Gym, Singing, Cooking
+
+📞 9766696568 | rudrapatole7@gmail.com
